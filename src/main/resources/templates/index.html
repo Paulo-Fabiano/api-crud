@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração</title>
+    <!-- Inclusão do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background-color: #f8f9fa;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* Barra de navegação superior (navbar) */
+        .navbar {
+            background-color: #17a2b8;
+            color: #fff;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar span {
+            font-family: 'Courier New', Courier, monospace;
+            margin-left: 170px;
+            font-size: 24px;
+        }
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .user-info img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Layout principal */
+        .main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Menu de navegação lateral */
+        .sidebar {
+            width: 250px;
+            background-color: #2f4050;
+            color: #fff;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            padding: 20px 40px;
+            position: relative;
+        }
+        .sidebar li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding-left: 25px;
+        }
+        .sidebar li a:hover {
+            background-color: #1f2b36;
+        }
+        .sidebar li ul {
+            display: none;
+            padding-left: 20px;
+        }
+        .sidebar li ul li a {
+            font-size: 14px;
+        }
+        .sidebar li.active > ul {
+            display: block;
+        }
+
+        /* Símbolo ">" após os itens com submenu */
+        .sidebar li a.toggle-submenu::after {
+            content: '\f105'; /* Código Unicode do ícone "angle-right" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 10px;
+        }
+
+        /* Ícones específicos para cada item */
+        .sidebar li a[data-icon="fa-box"]::before {
+            content: '\f466'; /* Código Unicode do ícone "box" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+        }
+        .sidebar li a[data-icon="fa-tags"]::before {
+            content: '\f02c'; /* Código Unicode do ícone "tags" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+        }
+        .sidebar li a[data-icon="fa-shopping-cart"]::before {
+            content: '\f07a'; /* Código Unicode do ícone "shopping-cart" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+        }
+        .sidebar li a[data-icon="fa-users"]::before {
+            content: '\f0c0'; /* Código Unicode do ícone "users" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+        }
+        .sidebar li a[data-icon="fa-file-invoice"]::before {
+            content: '\f570'; /* Código Unicode do ícone "file-invoice" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+        }
+        .sidebar li a[data-icon="fa-user"]::before {
+            content: '\f007'; /* Código Unicode do ícone "user" */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Conteúdo principal */
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .content h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .navbar {
+                height: 60px;
+                padding: 0 10px;
+            }
+            .navbar span {
+                font-size: 35px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+            }
+            .main {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            .content {
+                padding: 10px;
+            }
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+                text-align: center;
+            }
+            .navbar .user-info {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <span>Administração</span>
+    <div class="user-info"> </div>
+</div>
+
+<!-- Layout Principal -->
+<div class="main">
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h2>Menu Principal</h2>
+        <ul>
+            <li>
+                <a href="#" class="toggle-submenu" data-icon="fa-box">Estoque</a>
+                <ul>
+                    <li><a href="#">Adicionar</a></li>
+                    <li><a href="#">Listar</a></li>
+                    <li><a href="#">Atualizar</a></li>
+                    <li><a href="#">Deletar</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="toggle-submenu" data-icon="fa-tags">Produtos</a>
+                <ul>
+                    <li><a href="#">Listar Produtos</a></li>
+                    <li><a href="#">Vender Produto</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="toggle-submenu" data-icon="fa-shopping-cart">Vendas</a>
+                <ul>
+                    <li><a href="#">Vender Pelo Estoque</a></li>
+                    <li><a href="#">Vender Pela Revista</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="toggle-submenu" data-icon="fa-users">Clientes</a>
+                <ul>
+                    <li><a href="#">Adicionar Cliente</a></li>
+                    <li><a href="#">Consultar Clientes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="toggle-submenu" data-icon="fa-file-invoice">Boletos</a>
+                <ul>
+                    <li><a href="#">Opção 1</a></li>
+                    <li><a href="#">Opção 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="toggle-submenu" data-icon="fa-user">Usuários</a>
+                <ul>
+                    <li><a href="#">Opção A</a></li>
+                    <li><a href="#">Opção B</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="content">
+        <h1>Bem-vindo ao Sistema</h1>
+        <p>Desenvolvedor orientado a gambiarra hehe!</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var toggles = document.querySelectorAll('.toggle-submenu');
+        toggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                var parentLi = this.parentElement;
+                parentLi.classList.toggle('active');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
