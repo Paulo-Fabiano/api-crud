@@ -1,7 +1,9 @@
 package com.api.estoque.api_crud.Controller;
 
 import com.api.estoque.api_crud.Entity.Item;
+import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +15,8 @@ import java.util.List;
 @RequestMapping("/api/")
 public class ItemController {
 
+    @Autowired
     private ItemService itemService;
-
-    @GetMapping("/")
-    public ModelAndView teste() {
-        ModelAndView mv = new ModelAndView("index");
-        return mv;
-    }
 
     @PostMapping("item")
     public ResponseEntity<Item> salvarItem(Item item) {
@@ -33,7 +30,7 @@ public class ItemController {
     }
 
     @GetMapping("item/{id}")
-    public ResponseEntity<Item> buscarItemPorId(@PathVariable Long id) {
+    public ResponseEntity<Item> buscarItemPorId(@PathVariable Long id) throws IdNaoEncontrado {
         return ResponseEntity.ok().body(itemService.buscarItemPorId(id));
     }
 

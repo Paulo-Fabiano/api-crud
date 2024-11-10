@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Estoque</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* Configuração básica */
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    /* Conteúdo principal */
+    .content {
+        margin-left: 200px; /* Espaço para a sidebar */
+        padding: 20px;
+        box-sizing: border-box;
+        max-width: calc(100% - 200px); /* Ajusta para não ultrapassar o limite da tela */
+        min-height: 100vh;
+    }
+
+    /* Título */
+    h3 {
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Botão de adicionar item */
+    .btn-add {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        display: block;
+        text-align: center;
+        width: 200px;
+        margin: 0 auto;
+    }
+    .btn-add:hover {
+        background-color: #0056b3;
+    }
+
+    /* Formulário */
+    .form-container {
+        display: none;
+        margin: 20px auto;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+    }
+    .form-container input, .form-container button {
+        margin: 5px 0;
+        padding: 10px;
+        width: calc(100% - 20px);
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    .form-container button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    .form-container button:hover {
+        background-color: #218838;
+    }
+
+    /* Área da tabela */
+    .table-container {
+        margin-top: 20px;
+        width: 100%;
+    }
+    .table-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table-container th, .table-container td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .table-container th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+    }
+    .table-container tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Paginação */
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .pagination button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        margin: 0 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .pagination button:hover {
+        background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:insert="layout :: navbar"></div>
+
+<!-- Sidebar -->
+<div th:insert="layout :: sidebar"></div>
+
+<!-- Conteúdo principal -->
+<div class="content">
+  <!-- Título -->
+  <h3>Gestão de Estoque</h3>
+
+  <!-- Botão para exibir o formulário de adicionar item -->
+  <button class="btn-add" onclick="toggleForm()">Adicionar Novo Item</button>
+
+  <!-- Formulário para adicionar um novo item -->
+  <div class="form-container" id="form-container">
+    <form th:action="@{/estoque/adicionar}" method="post">
+      <input type="text" name="nome" placeholder="Nome do Item" required>
+      <input type="number" name="quantidade" placeholder="Quantidade" required>
+      <input type="number" step="0.01" name="preco" placeholder="Preço Unitário" required>
+      <button type="submit">Salvar Item</button>
+    </form>
+  </div>
+
+  <!-- Área da tabela de itens -->
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome do Item</th>
+        <th>Quantidade</th>
+        <th>Preço Unitário</th>
+        <th>Total</th>
+      </tr>
+      </thead>
+      <tbody id="table-body">
+      <tr th:each="item, iterStat : ${itens}"
+          th:if="${iterStat.index < 10}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.nome}"></td>
+        <td th:text="${item.quantidade}"></td>
+        <td th:text="${item.preco}"></td>
+<!--        <td th:text="${#numbers.formatDecimal(item.quantidade * item.preco, 2, 'COMMA', 'POINT')}"></td>-->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação -->
+  <div class="pagination">
+    <button onclick="previousPage()">Anterior</button>
+    <span id="page-info">Página 1 de X</span>
+    <button onclick="nextPage()">Próxima</button>
+  </div>
+</div>
+
+<script>
+  let currentPage = 1;
+  const itemsPerPage = 10;
+  const items = /*[[${itens}]]*/ []; // Array gerado pelo Thymeleaf com todos os itens
+
+  function toggleForm() {
+      const formContainer = document.getElementById("form-container");
+      formContainer.style.display = formContainer.style.display === "none" ? "block" : "none";
+  }
+
+  function renderTable() {
+      const tableBody = document.getElementById("table-body");
+      tableBody.innerHTML = "";
+
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageItems = items.slice(start, end);
+
+      pageItems.forEach(item => {
+          const row = `<tr>
+              <td>${item.id}</td>
+              <td>${item.nome}</td>
+              <td>${item.quantidade}</td>
+              <td>${item.preco}</td>
+<!--              <td>${(item.quantidade * item.preco).toFixed(2)}</td>-->
+          </tr>`;
+          tableBody.innerHTML += row;
+      });
+
+      document.getElementById("page-info").textContent = `Página ${currentPage} de ${Math.ceil(items.length / itemsPerPage)}`;
+  }
+
+  function nextPage() {
+      if (currentPage < Math.ceil(items.length / itemsPerPage)) {
+          currentPage++;
+          renderTable();
+      }
+  }
+
+  function previousPage() {
+      if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+      }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+      renderTable();
+  });
+</script>
+
+</body>
+</html>

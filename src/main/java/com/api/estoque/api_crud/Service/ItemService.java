@@ -1,6 +1,7 @@
 package com.api.estoque.api_crud.Service;
 
 import com.api.estoque.api_crud.Entity.Item;
+import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,12 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public Item buscarItemPorId(Long id) {
+    public Item buscarItemPorId(Long id) throws IdNaoEncontrado {
         Optional<Item> itemOpt = itemRepository.findById(id);
-        Item item = new Item();
-        if (itemOpt.isPresent()) {
-            item = itemOpt.get();
+        if (!itemOpt.isPresent()) {
+            throw new IdNaoEncontrado("Erro!, ID: "+" não encontrado!");
         }
-        return item;
+        return itemOpt.get();
     }
 
     /*
