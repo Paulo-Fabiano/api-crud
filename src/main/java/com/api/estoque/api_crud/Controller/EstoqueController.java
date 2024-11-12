@@ -23,4 +23,10 @@ public class EstoqueController {
         return mv;
     }
 
+    @GetMapping("/cadastrar")
+    public ModelAndView viewAdicionar() {
+        ModelAndView mv = new ModelAndView("/estoque/adicionar");
+        return mv;
+    }
+
 }

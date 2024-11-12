@@ -1,182 +1,204 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestão de Estoque</title>
-  <link rel="stylesheet" href="/styles.css">
+  <title>Gestão de Itens</title>
   <style>
-    /* Configuração básica */
+    /* Estilos gerais */
     body, html {
-        height: 100%;
+        font-family: Arial, sans-serif;
         margin: 0;
-    }
-
-    /* Conteúdo principal */
-    .content {
-        margin-left: 200px; /* Espaço para a sidebar */
-        padding: 20px;
+        padding: 0;
         box-sizing: border-box;
-        max-width: calc(100% - 200px); /* Ajusta para não ultrapassar o limite da tela */
-        min-height: 100vh;
+        background-color: #f8f9fa;
     }
 
-    /* Título */
-    h3 {
+    /* Contêiner de fundo */
+    .outer-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* Contêiner interno */
+    .inner-container {
+        width: 100%;
+        max-width: 800px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
         text-align: center;
-        font-size: 24px;
+        margin-bottom: 20px;
         color: #333;
-        margin-top: 10px;
+    }
+
+    /* Div para o botão separado da tabela */
+    .button-container {
+        text-align: right;
         margin-bottom: 20px;
     }
 
-    /* Botão de adicionar item */
-    .btn-add {
+    /* Estilos para o botão de adicionar */
+    .btn-primary {
         background-color: #007bff;
         color: #fff;
-        padding: 12px 20px;
         border: none;
+        padding: 10px 15px;
+        font-size: 16px;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 16px;
-        display: block;
-        text-align: center;
-        width: 200px;
-        margin: 0 auto;
+        text-decoration: none;
     }
-    .btn-add:hover {
+
+    .btn-primary:hover {
         background-color: #0056b3;
     }
 
-    /* Formulário */
-    .form-container {
-        display: none;
-        margin: 20px auto;
-        padding: 15px;
-        background-color: #f8f9fa;
-        border: 1px solid #e0e0e0;
-        border-radius: 5px;
+    /* Div da tabela */
+    .table-container {
         width: 100%;
-        max-width: 600px;
-        box-sizing: border-box;
-    }
-    .form-container input, .form-container button {
-        margin: 5px 0;
-        padding: 10px;
-        width: calc(100% - 20px);
+        min-height: 400px;
         border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-    .form-container button {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-    }
-    .form-container button:hover {
-        background-color: #218838;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
     }
 
-    /* Área da tabela */
-    .table-container {
-        margin-top: 20px;
-        width: 100%;
-    }
-    .table-container table {
+    /* Tabela */
+    table {
         width: 100%;
         border-collapse: collapse;
     }
-    .table-container th, .table-container td {
-        padding: 15px;
+
+    th, td {
+        padding: 10px;
         text-align: left;
-        border-bottom: 1px solid #e0e0e0;
-    }
-    .table-container th {
-        background-color: #f8f9fa;
-        color: #333;
-        font-weight: bold;
-    }
-    .table-container tbody tr:hover {
-        background-color: #f1f1f1;
+        border-bottom: 1px solid #ddd;
     }
 
-    /* Paginação */
-    .pagination {
-        text-align: center;
-        margin-top: 20px;
+    th {
+        background-color: #f1f1f1;
+        font-weight: bold;
     }
+
+    /* Centralizar conteúdo na coluna Ações */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* Botões de ação */
+    .btn-update {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-update:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    /* Estilos para a paginação centralizada */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 10px;
+    }
+
     .pagination button {
         background-color: #007bff;
         color: white;
         border: none;
         padding: 10px 15px;
-        margin: 0 5px;
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
     }
+
     .pagination button:hover {
         background-color: #0056b3;
+    }
+
+    .page-info {
+        margin-top: 0;
+        font-size: 16px;
+        color: #333;
     }
   </style>
 </head>
 <body>
+<div layout:fragment="content" class="outer-container">
+  <div class="inner-container">
+    <h2>Gestão de Itens</h2>
 
-<!-- Navbar -->
-<div th:insert="layout :: navbar"></div>
+    <!-- Botão separado da tabela dentro de um link -->
+    <div class="button-container">
+      <a th:href="@{/estoque/cadastrar}" class="btn-primary">Adicionar Novo Item</a>
+    </div>
 
-<!-- Sidebar -->
-<div th:insert="layout :: sidebar"></div>
+    <!-- Tabela de Itens Existentes -->
+    <div class="table-container" id="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Quantidade</th>
+          <th>Preço</th>
+          <th>Data de Compra</th>
+          <th style="text-align: center;">Ações</th>
+        </tr>
+        </thead>
+        <tbody id="table-body">
+        <!-- Itera sobre os itens existentes com Thymeleaf -->
+        <tr th:each="item : ${itens}">
+          <td th:text="${item.nome}"></td>
+          <td th:text="${item.quantidade}"></td>
+          <td th:text="${item.preco}"></td>
+          <td th:text="${item.dataCompra}"></td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-update" th:onclick="|window.location.href='/estoque/atualizar/' + ${item.id}|">Atualizar</button>
+              <button class="btn-delete" th:onclick="|window.location.href='/estoque/deletar/' + ${item.id}|">Deletar</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-<!-- Conteúdo principal -->
-<div class="content">
-  <!-- Título -->
-  <h3>Gestão de Estoque</h3>
-
-  <!-- Botão para exibir o formulário de adicionar item -->
-  <button class="btn-add" onclick="toggleForm()">Adicionar Novo Item</button>
-
-  <!-- Formulário para adicionar um novo item -->
-  <div class="form-container" id="form-container">
-    <form th:action="@{/estoque/adicionar}" method="post">
-      <input type="text" name="nome" placeholder="Nome do Item" required>
-      <input type="number" name="quantidade" placeholder="Quantidade" required>
-      <input type="number" step="0.01" name="preco" placeholder="Preço Unitário" required>
-      <button type="submit">Salvar Item</button>
-    </form>
-  </div>
-
-  <!-- Área da tabela de itens -->
-  <div class="table-container">
-    <table>
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome do Item</th>
-        <th>Quantidade</th>
-        <th>Preço Unitário</th>
-        <th>Total</th>
-      </tr>
-      </thead>
-      <tbody id="table-body">
-      <tr th:each="item, iterStat : ${itens}"
-          th:if="${iterStat.index < 10}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.nome}"></td>
-        <td th:text="${item.quantidade}"></td>
-        <td th:text="${item.preco}"></td>
-<!--        <td th:text="${#numbers.formatDecimal(item.quantidade * item.preco, 2, 'COMMA', 'POINT')}"></td>-->
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Paginação -->
-  <div class="pagination">
-    <button onclick="previousPage()">Anterior</button>
-    <span id="page-info">Página 1 de X</span>
-    <button onclick="nextPage()">Próxima</button>
+    <!-- Paginação centralizada -->
+    <div class="pagination">
+      <button onclick="previousPage()">Anterior</button>
+      <span id="page-info" class="page-info">Página 1 de X</span>
+      <button onclick="nextPage()">Próxima</button>
+    </div>
   </div>
 </div>
 
@@ -184,11 +206,6 @@
   let currentPage = 1;
   const itemsPerPage = 10;
   const items = /*[[${itens}]]*/ []; // Array gerado pelo Thymeleaf com todos os itens
-
-  function toggleForm() {
-      const formContainer = document.getElementById("form-container");
-      formContainer.style.display = formContainer.style.display === "none" ? "block" : "none";
-  }
 
   function renderTable() {
       const tableBody = document.getElementById("table-body");
@@ -200,11 +217,16 @@
 
       pageItems.forEach(item => {
           const row = `<tr>
-              <td>${item.id}</td>
               <td>${item.nome}</td>
               <td>${item.quantidade}</td>
               <td>${item.preco}</td>
-<!--              <td>${(item.quantidade * item.preco).toFixed(2)}</td>-->
+              <td>${item.dataCompra}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-update" onclick="window.location.href='/estoque/atualizar/' + ${item.id}">Atualizar</button>
+                  <button class="btn-delete" onclick="window.location.href='/estoque/deletar/' + ${item.id}">Deletar</button>
+                </div>
+              </td>
           </tr>`;
           tableBody.innerHTML += row;
       });

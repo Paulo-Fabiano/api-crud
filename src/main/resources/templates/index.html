@@ -1,43 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo à Administração</title>
-    <link rel="stylesheet" th:href="@{/styles.css}">
+    <title>Página Inicial - Administração</title>
+    <style>
+        /* Centraliza o conteúdo da div content */
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* ocupa a altura total da janela */
+            text-align: center;
+            padding: 20px;
+        }
+
+        .welcome-message {
+            font-size: 34px;
+            font-weight: bold;
+            margin-bottom: 0px;
+        }
+
+        .date-time {
+            font-size: 28px;
+            color: #555;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            .welcome-message {
+                font-size: 28px;
+            }
+            .date-time {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-message {
+                font-size: 22px;
+            }
+            .date-time {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Inclusão do Navbar e Menu Lateral a partir do layout -->
-<div th:replace="~{layout.html :: navbar}"></div>
-<div th:replace="~{layout.html :: sidebar}"></div>
-
-<!-- Conteúdo principal da página, sobrescrevendo a div.content -->
-<div class="content" th:fragment="content">
+<div layout:fragment="content" class="content">
     <div class="welcome-message">Bem-vindo ao Painel Administrativo!</div>
-    <div class="date-time" id="date-time">Carregando data e hora...</div>
+<!--    <div class="date-time" id="date-time">Carregando data e hora...</div>-->
 </div>
 
-<script>
-    // Função para atualizar a data e hora atual a cada segundo
-    function updateDateTime() {
-        const dateTimeElement = document.getElementById('date-time');
-        const now = new Date();
-        const options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        };
-        dateTimeElement.textContent = now.toLocaleDateString('pt-BR', options);
-    }
-
-    // Atualizar a data e hora ao carregar a página e a cada segundo
-    updateDateTime(); // Executa ao carregar a página
-    setInterval(updateDateTime, 1000); // Atualiza a cada 1 segundo
-</script>
 </body>
 </html>

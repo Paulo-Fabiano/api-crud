@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,5 +25,6 @@ public class Item {
     private int quantidade;
     @Column(name = "preco_item")
     private double preco;
-
+    @Column(name = "data_compra")
+    private LocalDate dataCompra = LocalDate.now();
 }

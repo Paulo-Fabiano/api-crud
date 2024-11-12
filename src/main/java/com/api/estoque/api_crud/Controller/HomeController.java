@@ -7,13 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    /*
-        Controller que chama meu index.html
-     */
-
     @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("layout");
+    public ModelAndView indexView() {
+        return new ModelAndView("index");
     }
 
 }
