@@ -34,12 +34,17 @@ public class ItemController {
         return ResponseEntity.ok().body(itemService.buscarItemPorId(id));
     }
 
-    @PutMapping("item/{id}")
-    public ResponseEntity<Item> atualizarItem(@PathVariable Long id, @RequestBody Item item) {
+    @PostMapping("item/{id}")
+    public ResponseEntity<Item> atualizarItem(@PathVariable Long id, @ModelAttribute Item item) {
         return ResponseEntity.status(HttpStatus.CREATED).body(itemService.atualizarItem(id, item));
     }
 
-    @DeleteMapping("item/{id}")
+    @PutMapping("item/att")
+    public ResponseEntity<Item> attItem(Item item) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.att(item));
+    }
+
+    @DeleteMapping("item/deletar/{id}")
     public void delatarItem(@PathVariable Long id) {
         itemService.deletarItem(id);
     }

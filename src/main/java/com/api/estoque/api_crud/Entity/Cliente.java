@@ -3,11 +3,13 @@ package com.api.estoque.api_crud.Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Cliente {
 
@@ -17,5 +19,9 @@ public class Cliente {
     private Long id;
     @Column(name = "nome")
     private String nome;
+    @Column(name = "endereco")
+    private String endereco;
+    @Column(name = "numero")
+    private String numero = null;
 
 }

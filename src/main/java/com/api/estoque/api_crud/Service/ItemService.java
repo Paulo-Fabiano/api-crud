@@ -47,6 +47,12 @@ public class ItemService {
         return itemdto;
     }
 
+    public Item att(Item item) {
+        Item itematt = new Item();
+        itematt = item;
+        return itematt;
+    }
+
     /*
      Corrigir essa função posteriormente
      */
@@ -57,4 +63,9 @@ public class ItemService {
             itemRepository.delete(itemExiste);
         }
     }
+
+//    public void deletarItensVenda(List<Item> lista) {
+//
+//    }
+
 }

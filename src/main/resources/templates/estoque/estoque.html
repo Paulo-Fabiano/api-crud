@@ -94,25 +94,25 @@
         gap: 10px;
     }
 
-    /* Botões de ação */
-    .btn-update {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
+    /* Links estilizados como botões */
+    .btn-update, .btn-delete {
+        text-decoration: none;
         padding: 5px 10px;
         font-size: 14px;
         border-radius: 5px;
+        display: inline-block;
+        text-align: center;
         cursor: pointer;
+    }
+
+    .btn-update {
+        background-color: #007bff;
+        color: #fff;
     }
 
     .btn-delete {
         background-color: #dc3545;
         color: #fff;
-        border: none;
-        padding: 5px 10px;
-        font-size: 14px;
-        border-radius: 5px;
-        cursor: pointer;
     }
 
     .btn-update:hover {
@@ -184,8 +184,8 @@
           <td th:text="${item.dataCompra}"></td>
           <td>
             <div class="action-buttons">
-              <button class="btn-update" th:onclick="|window.location.href='/estoque/atualizar/' + ${item.id}|">Atualizar</button>
-              <button class="btn-delete" th:onclick="|window.location.href='/estoque/deletar/' + ${item.id}|">Deletar</button>
+              <a th:href="@{/estoque/atualizar/{id}(id=${item.id})}" class="btn-update">Atualizar</a>
+              <a th:href="@{/api/item/deletar/{id}(id=${item.id})}" class="btn-delete">Deletar</a>
             </div>
           </td>
         </tr>
@@ -223,8 +223,8 @@
               <td>${item.dataCompra}</td>
               <td>
                 <div class="action-buttons">
-                  <button class="btn-update" onclick="window.location.href='/estoque/atualizar/' + ${item.id}">Atualizar</button>
-                  <button class="btn-delete" onclick="window.location.href='/estoque/deletar/' + ${item.id}">Deletar</button>
+                  <a href="/estoque/atualizar/${item.id}" class="btn-update">Atualizar</a>
+                  <a href="/estoque/deletar/${item.id}" class="btn-delete">Deletar</a>
                 </div>
               </td>
           </tr>`;

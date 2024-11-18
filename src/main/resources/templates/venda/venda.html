@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title>Registrar Venda</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h1, h2 {
+        color: #333;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .produto {
+        margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content" class="outer-container">
+  <h1>Registrar Venda</h1>
+  <form th:action="@{/vendas/inserir}" method="post" th:object="${venda}">
+    <h2>Selecione os Produtos</h2>
+    <div th:each="produto : ${produtos}" class="produto">
+      <input type="checkbox" th:name="'produtosSelecionados'" th:value="${produto.id}" />
+      <span th:text="${produto.nome}"></span>
+    </div>
+
+    <label for="valor">Valor da Venda:</label>
+    <input type="text" id="valor" th:field="*{valor}" placeholder="Valor da Venda" required />
+
+    <label for="data">Data da Venda:</label>
+    <input type="date" id="data" th:field="*{data}" required />
+
+    <input type="submit" value="Registrar Venda" />
+  </form>
+</div>
+</body>
+</html>

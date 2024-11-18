@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atualizar Item</title>
+  <style>
+    /* Estilos gerais */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body, html {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    /* Contêiner externo ocupando toda a área do fragmento */
+    .outer-container {
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        background-color: #e9ecef;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 150px;
+    }
+
+    /* Contêiner interno */
+    .inner-container {
+        width: 100%;
+        max-width: 800px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    /* Estilos para o formulário */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* Estilo para os botões */
+    .button-container {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary, .btn-back {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn-back {
+        background-color: #6c757d;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
+
+    /* Layout Responsivo */
+    @media (max-width: 768px) {
+        .outer-container {
+            padding: 20px;
+        }
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content" class="outer-container">
+  <div class="inner-square">
+    <!-- Botão Voltar em uma div separada -->
+    <div class="button-container">
+      <button class="btn-back" onclick="window.history.back()">Voltar</button>
+    </div>
+
+    <h2>Atualizar Item</h2>
+    <form th:action="@{/api/item/{id}(id=${item.id})}" method="post">
+      <div class="form-group">
+        <label for="nome">Nome do Item</label>
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Item" required th:value="${item.nome}">
+      </div>
+
+      <div class="form-group">
+        <label for="quantidade">Quantidade de Itens</label>
+        <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required th:value="${item.quantidade}">
+      </div>
+
+      <div class="form-group">
+        <label for="preco">Preço Unitário</label>
+        <input type="number" step="0.01" class="form-control" id="preco" name="preco" placeholder="Preço" required th:value="${item.preco}">
+      </div>
+
+      <div class="form-group">
+        <label for="dataCompra">Data de Compra</label>
+        <input type="date" class="form-control" id="dataCompra" name="dataCompra" required th:value="${item.dataCompra}">
+      </div>
+
+      <button type="submit" class="btn-primary">Atualizar Item</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
