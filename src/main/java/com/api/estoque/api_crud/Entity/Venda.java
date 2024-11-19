@@ -1,9 +1,6 @@
 package com.api.estoque.api_crud.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +19,11 @@ public class Venda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private List<Item> produtos;
     private LocalDate data_venda;
     private Double valor_venda;
-    private boolean venda_revista;
-    private boolean venda_estoque;
+    private boolean venda_revista = false;
+    private boolean venda_estoque = false;
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Item> items;
 
 }

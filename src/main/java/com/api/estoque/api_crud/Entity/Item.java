@@ -27,4 +27,8 @@ public class Item {
     private double preco;
     @Column(name = "data_compra")
     private LocalDate dataCompra = LocalDate.now();
+
+    @ManyToOne
+    @JoinColumn(name = "venda_id")
+    private Venda venda;
 }

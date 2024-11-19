@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title>Adicionar Venda</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="checkbox"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type="checkbox"] {
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    button {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    .btn-back {
+        display: block;
+        margin-top: 15px;
+        text-align: center;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1>Adicionar Venda</h1>
+
+  <div class="form-container">
+    <form th:action="@{/venda/api}" method="post">
+      <!-- Data da Venda -->
+      <div class="form-group">
+        <label for="data_venda">Data da Venda:</label>
+        <input type="date" id="data_venda"  required>
+      </div>
+
+      <!-- Valor da Venda -->
+      <div class="form-group">
+        <label for="valor_venda">Valor da Venda:</label>
+        <input type="number" id="valor_venda"  step="0.01" required>
+      </div>
+
+      <!-- Descrição -->
+      <div class="form-group">
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao"  placeholder="Descrição do produto vendido" required>
+      </div>
+
+      <!-- Checkbox para Venda Revista e Estoque -->
+      <div class="form-group checkbox-group">
+        <div>
+          <input type="checkbox" id="venda_revista" >
+          <label for="venda_revista">Venda Revista</label>
+        </div>
+        <div>
+          <input type="checkbox" id="venda_estoque" >
+          <label for="venda_estoque">Venda Estoque</label>
+        </div>
+      </div>
+
+      <!-- Botão de Salvar -->
+      <button type="submit">Salvar Venda</button>
+    </form>
+
+    <!-- Link para voltar à lista -->
+    <a th:href="@{/venda}" class="btn-back">Voltar para lista de vendas</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <title>Lista de Vendas</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ccc;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+    }
+
+    .btn-add {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-add:hover {
+        background-color: #218838;
+    }
+
+    .empty-list {
+        text-align: center;
+        color: #666;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content" class="outer-container">
+  <h1>Lista de Vendas</h1>
+
+  <div class="table-container">
+    <div class="btn-container">
+      <a th:href="@{/venda/adicionar}" class="btn-add">Registrar Nova Venda</a>
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Data da Venda</th>
+        <th>Valor da Venda</th>
+        <th>Venda Revista</th>
+        <th>Venda Estoque</th>
+        <th>Itens Vendidos</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="venda : ${vendas}">
+        <td th:text="${venda.id}"></td>
+        <td th:text="${venda.data_venda}"></td>
+        <td th:text="${venda.valor_venda}"></td>
+        <td th:text="${venda.venda_revista ? 'Sim' : 'Não'}"></td>
+        <td th:text="${venda.venda_estoque ? 'Sim' : 'Não'}"></td>
+        <td>
+          <ul>
+            <li th:each="item : ${venda.items}" th:text="${item.nome}"></li>
+          </ul>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(vendas)}">
+        <td colspan="6" class="empty-list">Nenhuma venda encontrada.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Lista de Boletos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .action-buttons a {
+            text-decoration: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        .btn-edit {
+            background-color: #007bff;
+        }
+
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .empty-list {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Lista de Boletos</h1>
+
+    <div class="table-container">
+        <!-- Botão para adicionar novo boleto -->
+        <div class="btn-container">
+            <a th:href="@{/boleto/adicionar}" class="btn-add">Adicionar Novo Boleto</a>
+        </div>
+
+        <!-- Tabela de boletos -->
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="boleto : ${boletos}">
+                <td th:text="${boleto.id}"></td>
+                <td th:text="${boleto.data_boleto}"></td>
+                <td th:text="${boleto.valor_boleto}"></td>
+                <td th:text="${boleto.descricao}"></td>
+                <td class="action-buttons">
+                    <a th:href="@{/boletos/editar/{id}(id=${boleto.id})}" class="btn-edit">Editar</a>
+                    <a th:href="@{/boletos/excluir/{id}(id=${boleto.id})}" class="btn-delete">Excluir</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Mensagem caso não existam boletos -->
+        <div th:if="${#lists.isEmpty(boletos)}" class="empty-list">
+            <p>Nenhum boleto encontrado.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
