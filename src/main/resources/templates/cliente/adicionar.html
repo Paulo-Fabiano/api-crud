@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Adicionar Cliente</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+    h1, h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .form-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+        max-width: 600px;
+    }
+    form label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+    form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    form button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+    }
+    form button:hover {
+        background-color: #218838;
+    }
+
+    /* Estilo da div do botão Voltar */
+    .btn-back-container {
+        width: 100%; /* Preenche a largura total do formulário */
+        background-color: #007bff; /* Cor azul */
+        text-align: center; /* Centraliza o botão dentro da div */
+        padding: 10px 0; /* Espaçamento interno */
+        margin-top: 20px; /* Espaço entre o botão e o conteúdo acima */
+        border-radius: 5px; /* Bordas arredondadas */
+    }
+
+    .btn-back {
+        color: white;
+        text-decoration: none; /* Remove o sublinhado */
+        font-size: 16px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .btn-back:hover {
+        color: #e0e0e0; /* Cor mais clara no hover */
+    }
+
+    .alert {
+        text-align: center;
+        margin: 15px auto; /* Centraliza horizontalmente e adiciona espaço entre elementos */
+        max-width: 80%; /* Limita a largura máxima da mensagem */
+        padding: 10px;
+        border-radius: 5px;
+        padding-top: 15px;
+        padding-bottom: 0px;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1>Adicionar Cliente</h1>
+
+  <!-- Formulário -->
+  <div class="form-container">
+    <h2>Formulário</h2>
+    <form th:action="@{/cliente/api/adicionar}" method="post">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" placeholder="Digite o nome" required>
+      <label for="telefone">Telefone:</label>
+      <input type="text" id="telefone" name="telefone" placeholder="Digite o telefone">
+      <label for="endereco">Endereço:</label>
+      <input type="text" id="endereco" name="endereco" placeholder="Digite o endereço" required>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <!-- Botão Voltar -->
+    <div class="btn-back-container">
+      <a th:href="@{/cliente}" class="btn-back">Voltar</a>
+    </div>
+  </div>
+
+  <!-- Mensagens de sucesso ou erro -->
+  <div th:if="${mensagem}" class="alert alert-success">
+    <p th:text="${mensagem}"></p>
+  </div>
+  <div th:if="${mensagemErro}" class="alert alert-danger">
+    <p th:text="${mensagemErro}"></p>
+  </div>
+</div>
+</body>
+</html>

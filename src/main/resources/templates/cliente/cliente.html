@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Gerenciar Clientes</title>
+    <title>Lista de Clientes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,36 +12,13 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .form-container, .table-container {
+        .table-container {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-        form label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-        }
-        form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        form button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        form button:hover {
-            background-color: #218838;
+            margin: 50px auto;
+            max-width: 800px;
         }
         table {
             width: 100%;
@@ -82,53 +59,84 @@
         .btn-delete-form {
             display: inline;
         }
+
+        /* Estilo para a div do botão centralizado */
+        .add-client-container {
+            text-align: center; /* Centraliza o botão horizontalmente */
+            margin-bottom: 20px; /* Espaço entre o botão e a tabela */
+        }
+
+        .btn-add-client {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-add-client:hover {
+            background-color: #218838;
+        }
+
+
+    .alert {
+        text-align: center;
+        margin: 15px auto; /* Centraliza horizontalmente e adiciona espaço entre elementos */
+        max-width: 80%; /* Limita a largura máxima da mensagem */
+        padding: 10px;
+        border-radius: 5px;
+        padding-top: 15px;
+        padding-bottom: 0px;
+    }
     </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>Gerenciar Clientes</h1>
-
-    <!-- Formulário para adicionar cliente -->
-    <div class="form-container">
-        <h2>Adicionar Cliente</h2>
-        <form th:action="@{/cliente/api/adicionar}" method="post">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite o nome" required>
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" placeholder="Digite o telefone">
-            <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" placeholder="Digite o endereço" required>
-            <button type="submit">Adicionar</button>
-        </form>
-    </div>
+    <h1>Lista de Clientes</h1>
 
     <!-- Tabela de clientes -->
     <div class="table-container">
-        <h2>Lista de Clientes</h2>
+        <h2>Clientes</h2>
+
+        <!-- Botão para ir para a view de adicionar cliente -->
+        <div class="add-client-container">
+            <a th:href="@{/cliente/adicionar}" class="btn-add-client">Adicionar Novo Cliente</a>
+        </div>
+
         <table>
             <thead>
             <tr>
                 <th>Nome</th>
-                <th>Telefone</th>
+                <th>Número</th>
                 <th>Endereço</th>
                 <th>Ações</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="cliente : ${clientes}">
-                <td th:text="${cliente.id}"></td>
                 <td th:text="${cliente.nome}"></td>
-                <td th:text="${cliente.telefone}"></td>
+                <td th:text="${cliente.numero}"></td>
                 <td th:text="${cliente.endereco}"></td>
                 <td>
-                    <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn-edit">Editar</a>
-                    <form th:action="@{/clientes/excluir/{id}(id=${cliente.id})}" method="post" class="btn-delete-form" onsubmit="return confirm('Deseja realmente excluir este cliente?');">
+                    <a th:href="@{/cliente/atualizar/{id}(id=${cliente.id})}" class="btn-edit">Atualizar</a>
+                    <form th:action="@{/cliente/api/deletar/{id}(id=${cliente.id})}" method="post" class="btn-delete-form" onsubmit="return confirm('Deseja realmente excluir este cliente?');">
                         <button type="submit" class="btn-delete">Excluir</button>
                     </form>
                 </td>
             </tr>
             </tbody>
         </table>
+
+        <!-- Mensagens de sucesso ou erro -->
+        <div th:if="${mensagem}" class="alert alert-success">
+            <p th:text="${mensagem}"></p>
+        </div>
+        <div th:if="${mensagemErro}" class="alert alert-danger">
+            <p th:text="${mensagemErro}"></p>
+        </div>
     </div>
 </div>
 </body>

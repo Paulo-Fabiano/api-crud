@@ -4,23 +4,36 @@ import com.api.estoque.api_crud.Entity.Item;
 import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/")
 public class ItemController {
 
     @Autowired
     private ItemService itemService;
 
+    /*
+        Controller que cria itens
+     */
+
     @PostMapping("item")
-    public ResponseEntity<Item> salvarItem(Item item) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.salvarItem(item));
+    public String criarItem(Item item, RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            itemService.salvarItem(item);
+            redirectAttributes.addFlashAttribute("mensagem", "Item criado com sucesso");
+        }
+        catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao criar Item: " + e.getMessage());
+        }
+        return "redirect:/estoque/cadastrar";
     }
 
     @GetMapping("item")
@@ -34,18 +47,42 @@ public class ItemController {
         return ResponseEntity.ok().body(itemService.buscarItemPorId(id));
     }
 
+    /*
+        Controller que atualiza os itens
+     */
+
     @PostMapping("item/{id}")
-    public ResponseEntity<Item> atualizarItem(@PathVariable Long id, @ModelAttribute Item item) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.atualizarItem(id, item));
+    public ModelAndView atualizarItem(@PathVariable Long id, @ModelAttribute Item item) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            itemService.atualizarItem(id, item);
+
+            mv.setViewName("estoque/atualizar");
+            mv.addObject("mensagem", "Item atualizado com sucesso");
+        }
+        catch (Exception e) {
+            mv.setViewName("estoque/atualizar");
+            mv.addObject("mensagemErro", "Erro ao atualizar o item: " + e.getMessage());
+        }
+        return mv;
     }
 
-    @PutMapping("item/att")
-    public ResponseEntity<Item> attItem(Item item) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.att(item));
+    /*
+        Controller que deleta itens
+        Por enquanto vou ter que definir como POST, devido a um problema no HTML, após terminar o projeto irei corrigir
+     */
+    @PostMapping("item/deletar/{id}")
+    public String delatarItem(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            itemService.deletarItem(id);
+            mv.addObject("mensagem", "Item excluido com sucesso");
+
+        }
+        catch (Exception e) {
+            mv.addObject("mensagemErro", "Erro ao excluir o item: " + e.getMessage());
+        }
+        return "redirect:/estoque";
     }
 
-    @DeleteMapping("item/deletar/{id}")
-    public void delatarItem(@PathVariable Long id) {
-        itemService.deletarItem(id);
-    }
 }

@@ -106,6 +106,17 @@
                 padding: 20px;
             }
         }
+
+        .alert {
+            text-align: center;
+            margin: 15px auto; /* Centraliza horizontalmente e adiciona espaço entre elementos */
+            max-width: 80%; /* Limita a largura máxima da mensagem */
+            padding: 10px;
+            border-radius: 5px;
+            padding-top: 15px;
+            padding-bottom: 0px;
+        }
+
     </style>
 </head>
 <body>
@@ -113,7 +124,7 @@
     <div class="inner-square">
         <!-- Botão Voltar em uma div separada -->
         <div class="button-container">
-            <button class="btn-back" onclick="window.history.back()">Voltar</button>
+            <a th:href="@{/estoque}" class="btn btn-primary">Voltar</a>
         </div>
 
         <h2>Cadastro de Item</h2>
@@ -136,6 +147,13 @@
             <div class="form-group">
                 <label for="dataCompra">Data de Compra</label>
                 <input type="date" class="form-control" id="dataCompra" name="dataCompra" required>
+            </div>
+
+            <div th:if="${mensagem}" class="alert alert-success">
+                <p th:text="${mensagem}"></p>
+            </div>
+            <div th:if="${mensagemErro}" class="alert alert-danger">
+                <p th:text="${mensagemErro}"></p>
             </div>
 
             <button type="submit" class="btn-primary">Cadastrar Item</button>

@@ -1,16 +1,21 @@
 package com.api.estoque.api_crud.Controller;
 
 import com.api.estoque.api_crud.Entity.Cliente;
+import com.api.estoque.api_crud.Exceptions.ClienteNaoEncontrado;
 import com.api.estoque.api_crud.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/cliente")
 public class ClienteController {
 
@@ -18,21 +23,57 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/api/adicionar")
-    public ResponseEntity<Cliente> criarCliente(@ModelAttribute Cliente cliente) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.criarCliente(cliente));
+    public String criarCliente(@ModelAttribute Cliente cliente, RedirectAttributes redirectAttributes) {
+        try {
+            clienteService.criarCliente(cliente);
+            redirectAttributes.addFlashAttribute("mensagem", "Cliente adicionado com sucesso");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao adicionar cliente: " + e.getMessage());
+        }
+        return "redirect:/cliente/adicionar";
     }
 
     @GetMapping
-    public ModelAndView viewCliente() {
-        List<Cliente> clientes = clienteService.listarClientes();
-        ModelAndView mv = new ModelAndView("/cliente/cliente");
-        mv.addObject("clientes", clientes);
-        return mv;
+    public String viewCliente(Model model) {
+        List<Cliente> allClientes = clienteService.listarClientes();
+        model.addAttribute("clientes", allClientes);
+        return "/cliente/cliente";
     }
 
-    @DeleteMapping("/cliente")
-    public void deletarCliente(@PathVariable Long id) {
-        clienteService.deletarCliente(id);
+    @GetMapping("/adicionar")
+    public String viewAdicionar() {
+        return "cliente/adicionar";
+    }
+
+    @GetMapping("/atualizar/{id}")
+    public String viewAtualizar(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("cliente", clienteService.listarCliente(id));
+        return "cliente/atualizar";
+    }
+
+//    @GetMapping("/atualizar/{id}")
+//    public String viewAtualizar(@PathVariable Long id, @ModelAttribute Cliente cliente) throws ClienteNaoEncontrado {
+//        ModelAndView mv = new ModelAndView();
+//        try {
+//            Cliente cliente = clienteService.listarCliente(id);
+//            mv.addObject("cliente", cliente);
+//        } catch (Exception e) {
+//            mv.addObject("mensagemErro", "Erro ao atualizar o item: " + e.getMessage());
+//        }
+//        return "cliente/atualizar";
+//    }
+
+    @PostMapping("/api/deletar/{id}")
+    public String deletarCliente(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            clienteService.deletarCliente(id);
+            mv.addObject("mensagem", "Cliente excluído com sucesso");
+        } catch (Exception e) {
+            mv.addObject("mensagemErro", "Erro ao excluir cliente: " + e.getMessage());
+        }
+        return "redirect:/cliente";
     }
 
 }

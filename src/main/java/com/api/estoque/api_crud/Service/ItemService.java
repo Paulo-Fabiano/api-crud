@@ -34,6 +34,7 @@ public class ItemService {
     /*
         Corrigir essa função depois
      */
+
     public Item atualizarItem(Long id, Item itemdto) {
         Optional<Item> itemOpt = itemRepository.findById(id);
         if (itemOpt.isPresent()) {
@@ -63,9 +64,5 @@ public class ItemService {
             itemRepository.delete(itemExiste);
         }
     }
-
-//    public void deletarItensVenda(List<Item> lista) {
-//
-//    }
 
 }
