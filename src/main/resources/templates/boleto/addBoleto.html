@@ -85,7 +85,7 @@
       <!-- Valor do Boleto -->
       <div class="form-group">
         <label for="valor_boleto">Valor do Boleto:</label>
-        <input type="number" id="valor_boleto" name="valor_boleto" step="0.01" placeholder="Ex.: 150.00" required>
+        <input type="number" id="valor_boleto" name="preco_boleto" step="0.01" placeholder="Ex.: 150.00" required>
       </div>
 
       <!-- Descrição do Boleto -->
@@ -99,7 +99,7 @@
     </form>
 
     <!-- Link para voltar à lista -->
-    <a th:href="@{/boletos}" class="btn-back">Voltar para lista de boletos</a>
+    <a th:href="@{/boleto}" class="btn-back">Voltar para lista de boletos</a>
   </div>
 </div>
 </body>

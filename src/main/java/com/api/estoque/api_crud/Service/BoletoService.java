@@ -25,12 +25,17 @@ public class BoletoService {
         }
     }
 
-    public List<Boleto> listarBoleto() throws BoletoNaoEncontrado {
-        try {
-            return boletoRepostirory.findAll();
-        } catch (DataAccessException e) {
-            throw new BoletoNaoEncontrado("Erro ao buscar a lista de boletos: " + e.getMessage());
-        }
+    public List<Boleto> listarBoleto() {
+//        try {
+//            return boletoRepostirory.findAll();
+//        } catch (DataAccessException e) {
+//            throw new BoletoNaoEncontrado("Erro ao buscar a lista de boletos: " + e.getMessage());
+//        }
+        return boletoRepostirory.findAll();
+    }
+
+    public void apagarBoleto(Long id) {
+        boletoRepostirory.deleteById(id);
     }
 
 }

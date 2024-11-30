@@ -118,20 +118,20 @@
             <tr th:each="boleto : ${boletos}">
                 <td th:text="${boleto.id}"></td>
                 <td th:text="${boleto.data_boleto}"></td>
-                <td th:text="${boleto.valor_boleto}"></td>
+                <td th:text="${boleto.preco_boleto}"></td>
                 <td th:text="${boleto.descricao}"></td>
                 <td class="action-buttons">
                     <a th:href="@{/boletos/editar/{id}(id=${boleto.id})}" class="btn-edit">Editar</a>
-                    <a th:href="@{/boletos/excluir/{id}(id=${boleto.id})}" class="btn-delete">Excluir</a>
+                    <a th:href="@{/boleto/api/deletar/{id}(id=${boleto.id})}" class="btn-delete">Excluir</a>
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <!-- Mensagem caso não existam boletos -->
-        <div th:if="${#lists.isEmpty(boletos)}" class="empty-list">
-            <p>Nenhum boleto encontrado.</p>
-        </div>
+<!--        &lt;!&ndash; Mensagem caso não existam boletos &ndash;&gt;-->
+<!--        <div th:if="${#lists.isEmpty(boletos)}" class="empty-list">-->
+<!--            <p>Nenhum boleto encontrado.</p>-->
+<!--        </div>-->
     </div>
 </div>
 </body>

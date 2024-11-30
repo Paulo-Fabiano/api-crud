@@ -21,16 +21,11 @@ public class BoletoController {
     private BoletoService boletoService;
 
     @GetMapping
-    public String viewListaBoleto(Model model) {
+    public ModelAndView viewListaBoleto() {
         ModelAndView mv = new ModelAndView("/boleto/listaBoletos");
-        List<Boleto> boletos = new ArrayList<>();
-        try {
-            boletos = boletoService.listarBoleto();
-        } catch (BoletoNaoEncontrado e) {
-            throw new RuntimeException(e);
-        }
-        model.addAttribute("boletos", boletos);
-        return "redirect:/boleto";
+        List<Boleto> boletos = boletoService.listarBoleto();
+        mv.addObject("boletos", boletos);
+        return mv;
     }
 
     @GetMapping("/adicionar")
@@ -49,4 +44,16 @@ public class BoletoController {
         }
         return "redirect:/boleto/adicionar";
     }
+
+    @GetMapping("/api/deletar/{id}")
+    public String viewListaBoleto(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView("/boleto/listaBoleto");
+        try {
+            boletoService.apagarBoleto(id);
+            return "redirect:/boleto";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
