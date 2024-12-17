@@ -1,9 +1,9 @@
 package com.api.estoque.api_crud.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.api.estoque.api_crud.Entity.Item;
+import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
     /**
      * Quando estendemos o JpaReposirory é necessário especificar dois tipos genéricos.

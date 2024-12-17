@@ -39,7 +39,7 @@
         color: #333;
     }
 
-    /* Botão de adicionar item */
+    /* Botão de adicionar itemEntity */
     .button-container {
         text-align: center; /* Centraliza o botão */
         margin-bottom: 20px; /* Espaço entre o botão e a tabela */
@@ -194,15 +194,15 @@
         </tr>
         </thead>
         <tbody id="table-body">
-        <tr th:each="item : ${itens}">
-          <td th:text="${item.nome}"></td>
-          <td th:text="${item.quantidade}"></td>
-          <td th:text="${item.preco}"></td>
-          <td th:text="${item.dataCompra}"></td>
+        <tr th:each="itemEntity : ${itens}">
+          <td th:text="${itemEntity.nome}"></td>
+          <td th:text="${itemEntity.quantidade}"></td>
+          <td th:text="${itemEntity.preco}"></td>
+          <td th:text="${itemEntity.dataCompra}"></td>
           <td>
             <div class="action-buttons">
-              <a th:href="@{/estoque/atualizar/{id}(id=${item.id})}" class="btn-update">Atualizar</a>
-              <form th:action="@{/api/item/deletar/{id}(id=${item.id})}" method="post" style="display: inline;">
+              <a th:href="@{/estoque/atualizar/{id}(id=${itemEntity.id})}" class="btn-update">Atualizar</a>
+              <form th:action="@{/api/itemEntity/deletar/{id}(id=${itemEntity.id})}" method="post" style="display: inline;">
                 <input type="hidden" name="_method" value="delete" />
                 <button type="submit" class="btn-delete">Deletar</button>
               </form>

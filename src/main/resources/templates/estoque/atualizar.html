@@ -127,25 +127,25 @@
     </div>
 
     <h2>Atualizar Item</h2>
-    <form th:action="@{/api/item/{id}(id=${item.id})}" method="post">
+    <form th:action="@{/api/itemEntity/{id}(id=${itemEntity.id})}" method="post">
       <div class="form-group">
         <label for="nome">Nome do Item</label>
-        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Item" required th:value="${item.nome}">
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Item" required th:value="${itemEntity.nome}">
       </div>
 
       <div class="form-group">
         <label for="quantidade">Quantidade de Itens</label>
-        <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required th:value="${item.quantidade}">
+        <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required th:value="${itemEntity.quantidade}">
       </div>
 
       <div class="form-group">
         <label for="preco">Preço Unitário</label>
-        <input type="number" step="0.01" class="form-control" id="preco" name="preco" placeholder="Preço" required th:value="${item.preco}">
+        <input type="number" step="0.01" class="form-control" id="preco" name="preco" placeholder="Preço" required th:value="${itemEntity.preco}">
       </div>
 
       <div class="form-group">
         <label for="dataCompra">Data de Compra</label>
-        <input type="date" class="form-control" id="dataCompra" name="dataCompra" required th:value="${item.dataCompra}">
+        <input type="date" class="form-control" id="dataCompra" name="dataCompra" required th:value="${itemEntity.dataCompra}">
       </div>
 
       <div th:if="${mensagem}" class="alert alert-success">

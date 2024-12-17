@@ -27,7 +27,7 @@
         }
 
         /* Estilo para submenu indentado */
-        .submenu-item {
+        .submenu-itemEntity {
             margin-left: 20px; /* Indentação para os itens do submenu */
         }
 
@@ -49,43 +49,43 @@
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                 <span class="fs-5 d-none d-sm-inline menu-title">Menu Principal</span>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a th:href="@{/}" class="nav-link align-middle px-0">
                             <i class="bi bi-house-door fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Home</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a th:href="@{/estoque}" class="nav-link align-middle px-0">
                             <i class="bi bi-box-seam fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Estoque</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a href="#" class="nav-link align-middle px-0">
                             <i class="bi bi-basket fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Produtos</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a th:href="@{/venda}" class="nav-link align-middle px-0">
                             <i class="bi bi-cart fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Vendas</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a th:href="@{/cliente}" class="nav-link align-middle px-0">
                             <i class="bi bi-people fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Clientes</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a th:href="@{/boleto}" class="nav-link align-middle px-0">
                             <i class="bi bi-file-earmark-text fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Boletos</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-itemEntity">
                         <a href="#" class="nav-link align-middle px-0">
                             <i class="bi bi-person fs-4"></i>
                             <span class="ms-1 d-none d-sm-inline">Usuários</span>
@@ -95,15 +95,15 @@
                 <hr>
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="user" width="30" height="30" class="rounded-circle">
+<!--                        <img src="https://github.com/mdo.png" alt="user" width="30" height="30" class="rounded-circle">-->
                         <span class="d-none d-sm-inline mx-1">Usuário</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="#">Novo projeto...</a></li>
-                        <li><a class="dropdown-item" href="#">Configurações</a></li>
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                        <li><a class="dropdown-itemEntity" href="#">Novo projeto...</a></li>
+                        <li><a class="dropdown-itemEntity" href="#">Configurações</a></li>
+                        <li><a class="dropdown-itemEntity" href="#">Perfil</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Sair</a></li>
+                        <li><a class="dropdown-itemEntity" href="#">Sair</a></li>
                     </ul>
                 </div>
             </div>

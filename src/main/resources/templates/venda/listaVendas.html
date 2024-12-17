@@ -99,7 +99,7 @@
         <td th:text="${venda.venda_estoque ? 'Sim' : 'Não'}"></td>
         <td>
           <ul>
-            <li th:each="item : ${venda.items}" th:text="${item.nome}"></li>
+            <li th:each="itemEntity : ${venda.items}" th:text="${itemEntity.nome}"></li>
           </ul>
         </td>
       </tr>

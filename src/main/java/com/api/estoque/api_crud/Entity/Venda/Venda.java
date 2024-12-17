@@ -1,5 +1,6 @@
-package com.api.estoque.api_crud.Entity;
+package com.api.estoque.api_crud.Entity.Venda;
 
+import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class Venda {
     private Double valor_venda;
     private boolean venda_revista = false;
     private boolean venda_estoque = false;
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Item> items;
+//    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<ItemEntity> itemEntities;
 
 }
