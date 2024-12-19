@@ -5,9 +5,11 @@ import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemRequestDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
+import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Service.CategoriaService;
 import com.api.estoque.api_crud.Service.Item.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,9 +53,26 @@ public class EstoqueController {
     }
 
     // Endpoint para listar os itens do inventário
-    @GetMapping("/item")
+    @GetMapping( "/item" )
     public ResponseEntity<List<ItemResponseDTO>> listarItens() {
         return ResponseEntity.ok(itemService.buscarItens());
+    }
+
+    // Endpoint para listar os itens zerados
+    @GetMapping( "/item/esgotados" )
+    public ResponseEntity<List<ItemResponseDTO>> listarItensEstogotados() {
+        return ResponseEntity.ok(itemService.buscarItensEsgotagos());
+    }
+
+    // Endpoint para apagar um item do inventário
+    @DeleteMapping( "/item/deletar/{id}")
+    public ResponseEntity<?> deletarItem(@PathVariable Long id) throws IdNaoEncontrado {
+        try {
+            itemService.deletarItem(id);
+            return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        } catch (IdNaoEncontrado e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 

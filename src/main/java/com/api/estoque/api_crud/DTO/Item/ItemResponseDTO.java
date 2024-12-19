@@ -19,4 +19,10 @@ public class ItemResponseDTO {
     @JsonProperty( "purchaseDate" )
     private String dataCompra;
 
+    // Contrutor para a função que lista os itens esgotados
+    public ItemResponseDTO(Long id, String nome) {
+        this.id = id;
+        this.nomeItem = nome;
+    }
+
 }
