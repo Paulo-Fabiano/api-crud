@@ -4,7 +4,9 @@ import com.api.estoque.api_crud.DTO.Categoria.CategoriaRequestDTO;
 import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemRequestDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
+import com.api.estoque.api_crud.DTO.Item.ItemResponseProdutoDTO;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
+import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Service.CategoriaService;
 import com.api.estoque.api_crud.Service.Item.ItemService;
@@ -48,8 +50,11 @@ public class EstoqueController {
 
     // Endpoint para adicionar itens ao inventário
     @PostMapping( "/item" )
-    public ResponseEntity<ItemResponseDTO> adicionarItem(@RequestBody ItemRequestDTO itemRequestDTO) {
-        return ResponseEntity.ok(itemService.adicionarItem(itemRequestDTO));
+    public ResponseEntity<ItemResponseDTO> adicionarItem(@RequestBody ItemRequestDTO dtoRequest) {
+//        ItemEntity item = new ItemEntity(dto.getNomeItem(), dto.getPrecoUnitario(), dto.getQuantidadeItem(), dto.getDataCompra());
+//        ItemEntity item = itemService.adicionarItem(dtoRequest.tranformandoEmItem());
+//        ItemResponseDTO dto = dtoRequest.tranformandoEmDTO();
+        return ResponseEntity.ok(itemService.adicionarItem(dtoRequest));
     }
 
     // Endpoint para listar os itens do inventário
@@ -73,6 +78,12 @@ public class EstoqueController {
         } catch (IdNaoEncontrado e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    // Endpoint para retornar os itens para a página de adicionar produto
+    @GetMapping( "/item/produto" )
+    public ResponseEntity<List<ItemResponseProdutoDTO>> listarItensParaProdutos() {
+        return ResponseEntity.ok(itemService.buscarItensPPProd());
     }
 
 

@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ItemRequestDTO {
 
-    @JsonProperty( "name" )
+    @JsonProperty( "nome" )
     private String nomeItem;
-    @JsonProperty( "price" )
+    @JsonProperty( "preco" )
     private Double precoUnitario;
-    @JsonProperty( "quantity" )
+    @JsonProperty( "quantidade" )
     private Integer quantidadeItem;
-    @JsonProperty( "purchaseDate" )
+    @JsonProperty( "dataCompra" )
     private String dataCompra;
 
     public ItemEntity tranformandoEmItem() {

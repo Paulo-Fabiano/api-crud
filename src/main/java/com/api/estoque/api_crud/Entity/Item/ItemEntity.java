@@ -38,7 +38,7 @@ public class ItemEntity {
           this.dataCompra = dC;
     }
 
-    @OneToMany(mappedBy = "itemEstoque", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "itemEstoque", cascade = CascadeType.ALL)
     private Set<ProdutoItemEstoqueEntity> produtosAssociados = new HashSet<>();
 
     // Tranformando em DTO Response

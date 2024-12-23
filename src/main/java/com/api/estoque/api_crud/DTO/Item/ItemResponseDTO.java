@@ -10,13 +10,13 @@ public class ItemResponseDTO {
 
     @JsonProperty( "id" )
     private Long id;
-    @JsonProperty( "name" )
+    @JsonProperty( "nome" )
     private String nomeItem;
-    @JsonProperty( "price" )
+    @JsonProperty( "preco" )
     private Double precoUnitario;
-    @JsonProperty( "quantity" )
+    @JsonProperty( "quantidade" )
     private Integer quantidadeItem;
-    @JsonProperty( "purchaseDate" )
+    @JsonProperty( "dataCompra" )
     private String dataCompra;
 
     // Contrutor para a função que lista os itens esgotados

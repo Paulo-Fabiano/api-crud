@@ -1,28 +1,66 @@
 package com.api.estoque.api_crud.DTO.Produto;
 
+import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
+import com.api.estoque.api_crud.Entity.ProdutoItemEstoqueEntity.ProdutoItemEstoqueEntity;
+import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
+import com.api.estoque.api_crud.Entity.Item.ItemEntity;
+import com.api.estoque.api_crud.Repository.Categoria.CategoriaRepository;
+import com.api.estoque.api_crud.Repository.ItemRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
 public class ProdutoRequestDTO {
 
+    // Campos do DTO
     @JsonProperty( "image" )
     private byte[] imagemProduto;
     @JsonProperty( "name" )
     private String nomeProduto;
-    @JsonProperty( "description" )
+    @JsonProperty( "description")
     private String descricaoProduto;
     @JsonProperty( "itens" )
-    private Set<Long> itens;
-    @JsonProperty( "category" )
-    private Set<Long> categorias;
+    private Map<Long, Long> itens; // ID do item -> quantidade
+    @JsonProperty( "categories" )
+    private Set<Long> categorias; // IDs das categorias
     @JsonProperty( "price" )
     private Double precoProduto;
-    @JsonProperty( "quantity" )
+    @JsonProperty( "stock" )
     private Integer estoqueProduto;
 
+    public ProdutoEntity transformandoEmProdutoEntity(
+            CategoriaRepository categoriaRepository,
+            ItemRepository itemRepository) {
+        // Converter categorias
+        Set<CategoriaEntity> categoriaEntities = new HashSet<>();
+        if (categorias != null && !categorias.isEmpty()) {
+            categoriaEntities = new HashSet<>(categoriaRepository.findAllById(categorias));
+        }
+
+        // Converter itens
+        Set<ProdutoItemEstoqueEntity> itensEstoque = new HashSet<>();
+        if (itens != null && !itens.isEmpty()) {
+            itens.forEach((itemId, quantidade) -> {
+                ItemEntity itemEntity = itemRepository.findById(itemId)
+                        .orElseThrow(() -> new IllegalArgumentException("Item não encontrado com ID: " + itemId));
+                ProdutoItemEstoqueEntity produtoItemEstoque = new ProdutoItemEstoqueEntity();
+                produtoItemEstoque.setItem(itemEntity);
+                produtoItemEstoque.setQuantidade(quantidade);
+                produtoItemEstoque.setProduto(null); // Será configurado ao persistir
+                itensEstoque.add(produtoItemEstoque);
+            });
+        }
+
+        // Criar e retornar a entidade do produto
+        return new ProdutoEntity(
+                imagemProduto,
+                nomeProduto,
+                descricaoProduto,
+                categoriaEntities,
+                precoProduto,
+                itensEstoque
+        );
+    }
 }

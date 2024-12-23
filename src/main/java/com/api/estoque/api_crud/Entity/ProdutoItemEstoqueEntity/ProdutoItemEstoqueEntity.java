@@ -3,13 +3,17 @@ package com.api.estoque.api_crud.Entity.ProdutoItemEstoqueEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table( name = "table_produto_item_estoque_entity")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProdutoItemEstoqueEntity {
 
     @Id
@@ -27,4 +31,9 @@ public class ProdutoItemEstoqueEntity {
     @Column(name = "quantidade_utilizada", nullable = false)
     private Integer quantidadeUtilizada;
 
+    public void setItem(ItemEntity itemEntity) {
+    }
+
+    public void setQuantidade(Long quantidade) {
+    }
 }

@@ -2,6 +2,7 @@ package com.api.estoque.api_crud.Service.Item;
 
 import com.api.estoque.api_crud.DTO.Item.ItemRequestDTO;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
+import com.api.estoque.api_crud.DTO.Item.ItemResponseProdutoDTO;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Exceptions.IdNaoEncontrado;
 import com.api.estoque.api_crud.Repository.ItemRepository;
@@ -21,7 +22,9 @@ public class ItemService {
     // Função para adicionar itens no inventário
     public ItemResponseDTO adicionarItem(ItemRequestDTO dto) {
         ItemEntity item = new ItemEntity(dto.getNomeItem(), dto.getPrecoUnitario(), dto.getQuantidadeItem(), dto.getDataCompra());
-        return itemRepository.save(item).tranformandoEmDTO();
+        itemRepository.save(item);
+
+        return  item.tranformandoEmDTO();
     }
 
     // Função para retornar a lista de itens do inventário
@@ -54,6 +57,18 @@ public class ItemService {
         }
         // Deleta o item se ele existir
         itemRepository.delete(itemOpt.get());
+    }
+
+    // Função que retorna os itens para a página de adicionar produto
+    // buscarItensPProd -> buscarItensParaPaginaProdutos
+    public List<ItemResponseProdutoDTO> buscarItensPPProd() {
+        List<ItemEntity> lItem = itemRepository.findAll();
+        List<ItemResponseProdutoDTO> lItemDTO = new ArrayList<>();
+        for (ItemEntity i : lItem) {
+            ItemResponseProdutoDTO itemResponseProdutoDTO = new ItemResponseProdutoDTO(i.getId(), i.getNome(), i.getQuantidade(), i.getPreco());
+            lItemDTO.add(itemResponseProdutoDTO);
+        }
+        return lItemDTO;
     }
 
 
