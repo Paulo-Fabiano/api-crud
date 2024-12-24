@@ -1,20 +1,15 @@
 package com.api.estoque.api_crud.Service.Produto;
 
-import com.api.estoque.api_crud.DTO.Produto.ProdutoRequestDTO;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
-import com.api.estoque.api_crud.Entity.ProdutoItemEstoqueEntity.ProdutoItemEstoqueEntity;
 import com.api.estoque.api_crud.Repository.Categoria.CategoriaRepository;
 import com.api.estoque.api_crud.Repository.ItemRepository;
 import com.api.estoque.api_crud.Repository.Produto.ProdutoRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ProdutoService {
@@ -27,6 +22,7 @@ public class ProdutoService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
 
 //    // Função para criar um produto
 //    @Transactional
@@ -77,10 +73,56 @@ public class ProdutoService {
 //        return produtoRepository.save(produtoEntity);
 //    }
 
+//
+//    public ProdutoEntity adicionarProduto(ProdutoRequestDTO produtoRequestDTO) {
+//        ProdutoEntity produtoEntity = produtoRequestDTO.transformandoEmProdutoEntity(categoriaRepository, itemRepository);
+//        return produtoRepository.save(produtoEntity);
+//    }
 
-    public ProdutoEntity adicionarProduto(ProdutoRequestDTO produtoRequestDTO) {
-        ProdutoEntity produtoEntity = produtoRequestDTO.transformandoEmProdutoEntity(categoriaRepository, itemRepository);
-        return produtoRepository.save(produtoEntity);
+//    // Função para adicionar um produto
+//    public void addProduto(ProdutoRequestDTO dto) {
+//
+//        ProdutoEntity produto = new ProdutoEntity(
+//                dto.getImagemProduto(),
+//                dto.getNomeProduto(),
+//                dto.getDescricaoProduto(),
+//                dto.getItens(),
+//                dto.getCategorias(),
+//                dto.getPrecoProduto(),
+//                dto.getEstoqueProduto()
+//        );
+
+//    }
+
+    public ProdutoEntity addProduto(ProdutoEntity produto) {
+
+        // Fazendo a busca e adição das categorias
+        List<CategoriaEntity> categorias = produto.getProdutoCategoria();
+        List<CategoriaEntity> lCat = new ArrayList<>();
+        for (CategoriaEntity c : categorias) {
+            Optional<CategoriaEntity> cOpt = categoriaRepository.findById(c.getId());
+            if (!cOpt.isPresent()) {
+                throw new RuntimeException(); // Trocar esse erro posteriormente
+            }
+            lCat.add(cOpt.get());
+        }
+        produto.setProdutoCategoria(lCat);
+
+        // Fazendo a busca e adição dos itens
+        List<ItemEntity> itens = produto.getProdutoItens();
+        List<ItemEntity> lItem = new ArrayList<>();
+        for (ItemEntity i : itens) {
+            Optional<ItemEntity> iOpt = itemRepository.findById(i.getId());
+            if (!iOpt.isPresent()) {
+                throw new RuntimeException();
+            }
+            lItem.add(iOpt.get());
+        }
+        produto.setProdutoItens(lItem);
+
+        return produtoRepository.save(produto);
+
     }
+
 
 }

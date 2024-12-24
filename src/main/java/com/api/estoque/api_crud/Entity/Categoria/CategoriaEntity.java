@@ -3,15 +3,20 @@ package com.api.estoque.api_crud.Entity.Categoria;
 import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table( name = "table_categorias" )
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
 public class CategoriaEntity {
 
     @Id
@@ -22,8 +27,8 @@ public class CategoriaEntity {
     private String nomeCategoria;
 
     // Criando o relacionamento com a entidade produtos
-    @ManyToMany( mappedBy = "categoria" )
-    private Set<ProdutoEntity> produtos;
+    @ManyToMany( mappedBy = "produtoCategoria" )
+    private List<ProdutoEntity> produtos = new ArrayList<>();
 
     // Construtor padrão
     public CategoriaEntity(String nome) {

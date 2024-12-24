@@ -1,6 +1,7 @@
 package com.api.estoque.api_crud.Entity.Item;
 
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
+import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import com.api.estoque.api_crud.Entity.ProdutoItemEstoqueEntity.ProdutoItemEstoqueEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,8 +39,8 @@ public class ItemEntity {
           this.dataCompra = dC;
     }
 
-    @ManyToMany(mappedBy = "itemEstoque", cascade = CascadeType.ALL)
-    private Set<ProdutoItemEstoqueEntity> produtosAssociados = new HashSet<>();
+    @ManyToMany(mappedBy = "produtoItens" )
+    private List<ProdutoEntity> produtosItem = new ArrayList<>();
 
     // Tranformando em DTO Response
     public ItemResponseDTO tranformandoEmDTO() {

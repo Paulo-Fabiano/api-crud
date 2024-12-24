@@ -2,18 +2,15 @@ package com.api.estoque.api_crud.Entity.Produto;
 
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
-import com.api.estoque.api_crud.Entity.ProdutoItemEstoqueEntity.ProdutoItemEstoqueEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-@Table( name = "table_produtos" )
+@Table( name = "produtos" )
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -22,33 +19,35 @@ public class ProdutoEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    @Column( name = "id_produto")
+    @Column( name = "id")
     private Long id;
-    @Lob
-    @Column( name = "imagem_produto")
-    private byte[] imagemProduto;
+//    @Lob
+//    @Column( name = "imagem_produto")
+//    private byte[] imagemProduto;
     @Column( name = "nome_produto")
     private String nomeProduto;
     @Column( name = "descricao_produto" )
     private String descricaoProduto;
 
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable(
             name = "produto_categoria",
-            joinColumns = @JoinColumn( name = "id_produto" ),
-            inverseJoinColumns = @JoinColumn( name = "id_categoria" )
+            joinColumns = @JoinColumn( name = "produto_id" ),
+            inverseJoinColumns = @JoinColumn( name = "categoria_id" )
     )
+    private List<CategoriaEntity> produtoCategoria = new ArrayList<>();
 
-    private Set<CategoriaEntity> categoria;
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable(
+            name = "produto_item",
+            joinColumns = @JoinColumn( name = "produto_id" ),
+            inverseJoinColumns = @JoinColumn( name = "item_id" )
+    )
+    private List<ItemEntity> produtoItens = new ArrayList<>();
 
     @Column( name = "preco_produto" )
     private Double precoProduto;
 
-    @ManyToMany(mappedBy = "produto", cascade = CascadeType.ALL)
-    private Set<ProdutoItemEstoqueEntity> itensEstoque = new HashSet<>();
-
-    public ProdutoEntity(byte[] imagemProduto, String nomeProduto, String descricaoProduto, Set<CategoriaEntity> categoriaEntities, Double precoProduto, Set<ProdutoItemEstoqueEntity> itensEstoque) {
-    }
 
 
 }

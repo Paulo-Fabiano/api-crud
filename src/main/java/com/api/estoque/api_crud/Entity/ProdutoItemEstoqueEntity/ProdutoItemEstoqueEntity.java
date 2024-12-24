@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table( name = "table_produto_item_estoque_entity")
+@Table( name = "produto_item_estoque")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class ProdutoItemEstoqueEntity {
     private ProdutoEntity produto;
 
     @ManyToOne
-    @JoinColumn(name = "id_item_estoque", nullable = false)
+    @JoinColumn(name = "id_item", nullable = false)
     private ItemEntity itemEstoque;
 
     @Column(name = "quantidade_utilizada", nullable = false)
@@ -36,4 +36,5 @@ public class ProdutoItemEstoqueEntity {
 
     public void setQuantidade(Long quantidade) {
     }
+
 }

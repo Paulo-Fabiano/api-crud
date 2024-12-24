@@ -23,9 +23,14 @@ public class ProdutoController {
 //    public ResponseEntity<?> criarProduto(@RequestBody ProdutoEntity produtoEntity, Map<Long, Integer> itensComQuantidade, Set<Long> idsCategorias) {
 //        return ResponseEntity.ok(produtoService.adicionarProduto(produtoEntity, itensComQuantidade, idsCategorias));
 //    }
-    @PostMapping("/adicionar")
-    public ResponseEntity<?> criarProduto(@RequestBody ProdutoRequestDTO dto) {
-        return ResponseEntity.ok(produtoService.adicionarProduto(dto));
+//    @PostMapping("/adicionar")
+//    public ResponseEntity<?> criarProduto(@RequestBody ProdutoRequestDTO dto) {
+//        return ResponseEntity.ok(produtoService.adicionarProduto(dto));
+//    }
+
+    @PostMapping("/add")
+    public ResponseEntity<ProdutoEntity> addPro(@RequestBody ProdutoEntity produto) {
+        return ResponseEntity.ok(produtoService.addProduto(produto));
     }
 
     @GetMapping
