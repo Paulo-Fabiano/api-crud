@@ -2,6 +2,8 @@ package com.api.estoque.api_crud.Entity.Categoria;
 
 import com.api.estoque.api_crud.DTO.Categoria.CategoriaResponseDTO;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table( name = "table_categorias" )
+@Table( name = "categorias" )
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
@@ -27,7 +29,9 @@ public class CategoriaEntity {
     private String nomeCategoria;
 
     // Criando o relacionamento com a entidade produtos
+    @JsonIgnore
     @ManyToMany( mappedBy = "produtoCategoria" )
+    @JsonBackReference
     private List<ProdutoEntity> produtos = new ArrayList<>();
 
     // Construtor padrão

@@ -1,14 +1,14 @@
 package com.api.estoque.api_crud.Controller.DashboardProduto;
 
-import com.api.estoque.api_crud.DTO.Produto.ProdutoRequestDTO;
+import com.api.estoque.api_crud.DTO.Produto.ProdutoDTO;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import com.api.estoque.api_crud.Service.Produto.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping( "/api/produtos" )
@@ -17,26 +17,29 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
-//
-//    // Endppoint para adicionar produtos
-//    @PostMapping( "/adicionar" )
-//    public ResponseEntity<?> criarProduto(@RequestBody ProdutoEntity produtoEntity, Map<Long, Integer> itensComQuantidade, Set<Long> idsCategorias) {
-//        return ResponseEntity.ok(produtoService.adicionarProduto(produtoEntity, itensComQuantidade, idsCategorias));
-//    }
-//    @PostMapping("/adicionar")
-//    public ResponseEntity<?> criarProduto(@RequestBody ProdutoRequestDTO dto) {
-//        return ResponseEntity.ok(produtoService.adicionarProduto(dto));
-//    }
 
-    @PostMapping("/add")
-    public ResponseEntity<ProdutoEntity> addPro(@RequestBody ProdutoEntity produto) {
-        return ResponseEntity.ok(produtoService.addProduto(produto));
+    // Endpoint para adicionar Produtos
+    @PostMapping("/adicionar")
+    public ResponseEntity<ProdutoEntity> adicionarprodutoItem(@RequestBody ProdutoDTO produto) {
+        return ResponseEntity.ok(produtoService.adicionarProduto(produto));
     }
 
-    @GetMapping
-    public ResponseEntity<?> buscarProdutos() {
-        return ResponseEntity.ok("Criar função");
+    // Endpoint para listar os produtos
+    @GetMapping("/listar")
+    public ResponseEntity<List<ProdutoEntity>> buscarProdutos() {
+        return ResponseEntity.ok(produtoService.buscarProdutos());
     }
 
+    // Endpoint para deletar um produto
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity deletarProduto(@PathVariable Long id) {
+        try {
+            produtoService.deletarProduto(id);
+            return ResponseEntity.ok().body(HttpStatus.ACCEPTED);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Não foi possível deletar o Produto");
+        }
+    }
 
 }

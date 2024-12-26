@@ -1,5 +1,6 @@
 package com.api.estoque.api_crud.Service.Produto;
 
+import com.api.estoque.api_crud.DTO.Produto.ProdutoDTO;
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
@@ -23,105 +24,55 @@ public class ProdutoService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    // Função que adicionar um produto
+    public ProdutoEntity adicionarProduto(ProdutoDTO produtoDTO) {
 
-//    // Função para criar um produto
-//    @Transactional
-//    public ProdutoEntity adicionarProduto(ProdutoEntity produtoEntity, Map<Long, Integer> itemComQuantidade, Set<Long> idsCategorias) {
-//        // Criar um conjunto para as associações da tabela intermediária
-//        Set<ProdutoItemEstoqueEntity> produtoItemEstoques = new HashSet<>();
-//
-//        // Processar os itens associados
-//        for (Map.Entry<Long, Integer> entry : itemComQuantidade.entrySet()) {
-//            Long itemId = entry.getKey();
-//            Integer quantidadeUtilizada = entry.getValue();
-//
-//            // Buscar o item no banco
-//            ItemEntity item = itemRepository.findById(itemId)
-//                    .orElseThrow(() -> new IllegalArgumentException("Item não encontrado: " + itemId));
-//
-//            // Verificar se há estoque suficiente
-//            if (item.getQuantidade() < quantidadeUtilizada) {
-//                throw new IllegalArgumentException("Estoque insuficiente para o item: " + item.getNome());
-//            }
-//
-//            // Atualizar o estoque
-//            item.setQuantidade(item.getQuantidade() - quantidadeUtilizada);
-//
-//            // Criar a entidade intermediária
-//            ProdutoItemEstoqueEntity produtoItemEstoque = new ProdutoItemEstoqueEntity();
-//            produtoItemEstoque.setProduto(produtoEntity);
-//            produtoItemEstoque.setItemEstoque(item);
-//            produtoItemEstoque.setQuantidadeUtilizada(quantidadeUtilizada);
-//
-//            // Adicionar ao conjunto
-//            produtoItemEstoques.add(produtoItemEstoque);
-//        }
-//
-//        // Associar os itens ao produto
-//        produtoEntity.setItensEstoque(produtoItemEstoques);
-//
-//        // Buscar categorias no banco e converter para Set
-//        Set<CategoriaEntity> categorias = new HashSet<>(categoriaRepository.findAllById(idsCategorias));
-//        if (categorias.isEmpty() || categorias.size() != idsCategorias.size()) {
-//            throw new IllegalArgumentException("Uma ou mais categorias não foram encontradas.");
-//        }
-//
-//        // Associar as categorias ao produto
-//        produtoEntity.setCategoria(categorias);
-//
-//        // Salvar o produto no banco de dados
-//        return produtoRepository.save(produtoEntity);
-//    }
+        ProdutoEntity produto = new ProdutoEntity(
+                produtoDTO.getNomeProduto(),
+                produtoDTO.getDescricaoProduto(),
+                produtoDTO.getPrecoProduto()
+        );
 
-//
-//    public ProdutoEntity adicionarProduto(ProdutoRequestDTO produtoRequestDTO) {
-//        ProdutoEntity produtoEntity = produtoRequestDTO.transformandoEmProdutoEntity(categoriaRepository, itemRepository);
-//        return produtoRepository.save(produtoEntity);
-//    }
-
-//    // Função para adicionar um produto
-//    public void addProduto(ProdutoRequestDTO dto) {
-//
-//        ProdutoEntity produto = new ProdutoEntity(
-//                dto.getImagemProduto(),
-//                dto.getNomeProduto(),
-//                dto.getDescricaoProduto(),
-//                dto.getItens(),
-//                dto.getCategorias(),
-//                dto.getPrecoProduto(),
-//                dto.getEstoqueProduto()
-//        );
-
-//    }
-
-    public ProdutoEntity addProduto(ProdutoEntity produto) {
-
-        // Fazendo a busca e adição das categorias
-        List<CategoriaEntity> categorias = produto.getProdutoCategoria();
-        List<CategoriaEntity> lCat = new ArrayList<>();
-        for (CategoriaEntity c : categorias) {
-            Optional<CategoriaEntity> cOpt = categoriaRepository.findById(c.getId());
-            if (!cOpt.isPresent()) {
-                throw new RuntimeException(); // Trocar esse erro posteriormente
+        List<Long> listaLongCategorias = produtoDTO.getProdutoCategoria();
+        List<CategoriaEntity> listaCategorias = new ArrayList<>();
+        for (Long l : listaLongCategorias) {
+            Optional<CategoriaEntity> categoriaOpt = categoriaRepository.findById(l);
+            if (!categoriaOpt.isPresent()) {
+                throw new RuntimeException("Erro no For ao verificar");
             }
-            lCat.add(cOpt.get());
+            listaCategorias.add(categoriaOpt.get());
         }
-        produto.setProdutoCategoria(lCat);
+        produto.setProdutoCategoria(listaCategorias);
 
-        // Fazendo a busca e adição dos itens
-        List<ItemEntity> itens = produto.getProdutoItens();
-        List<ItemEntity> lItem = new ArrayList<>();
-        for (ItemEntity i : itens) {
-            Optional<ItemEntity> iOpt = itemRepository.findById(i.getId());
-            if (!iOpt.isPresent()) {
+        List<Long> listaLongItens = produtoDTO.getProdutoItens();
+        List<ItemEntity> listaItens = new ArrayList<>();
+        for (Long i : listaLongItens) {
+            Optional<ItemEntity> itemOpt = itemRepository.findById(i);
+            if (!itemOpt.isPresent()) {
                 throw new RuntimeException();
             }
-            lItem.add(iOpt.get());
+            listaItens.add(itemOpt.get());
         }
-        produto.setProdutoItens(lItem);
+        produto.setProdutoItens(listaItens);
 
-        return produtoRepository.save(produto);
+        produto = produtoRepository.save(produto);
+        System.out.print("Produto Salvo!");
+        return produto;
 
+    }
+
+    // Função que busca os produtos
+    public List<ProdutoEntity> buscarProdutos() {
+        return produtoRepository.findAll();
+    }
+
+    // Função para remover um produto
+    public void deletarProduto(Long id) {
+        Optional<ProdutoEntity> produtoOpt = produtoRepository.findById(id);
+        if (!produtoOpt.isPresent()) {
+            throw new RuntimeException("Cliente com Id não encontrado");
+        }
+        produtoRepository.deleteById(id);
     }
 
 

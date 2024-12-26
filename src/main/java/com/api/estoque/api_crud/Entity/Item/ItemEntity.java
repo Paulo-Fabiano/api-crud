@@ -3,6 +3,7 @@ package com.api.estoque.api_crud.Entity.Item;
 import com.api.estoque.api_crud.DTO.Item.ItemResponseDTO;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import com.api.estoque.api_crud.Entity.ProdutoItemEstoqueEntity.ProdutoItemEstoqueEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class ItemEntity {
     }
 
     @ManyToMany(mappedBy = "produtoItens" )
+    @JsonBackReference
     private List<ProdutoEntity> produtosItem = new ArrayList<>();
 
     // Tranformando em DTO Response
