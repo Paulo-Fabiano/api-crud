@@ -25,4 +25,11 @@ public class ItemResponseDTO {
         this.nomeItem = nome;
     }
 
+    // Construtor para a função no Service que envia a lista de produtos
+    public ItemResponseDTO(Long id, String nome, int quantidade) {
+        this.id = id;
+        this.nomeItem = nome;
+        this.quantidadeItem = quantidade;
+    }
+
 }

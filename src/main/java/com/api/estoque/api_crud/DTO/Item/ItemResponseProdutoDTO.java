@@ -1,7 +1,6 @@
 package com.api.estoque.api_crud.DTO.Item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package com.api.estoque.api_crud.Controller.DashboardProduto;
 
-import com.api.estoque.api_crud.DTO.Produto.ProdutoDTO;
+import com.api.estoque.api_crud.DTO.Produto.ProdutoRequestDTO;
+import com.api.estoque.api_crud.DTO.Produto.ProdutoResponseDTO;
 import com.api.estoque.api_crud.Entity.Produto.ProdutoEntity;
 import com.api.estoque.api_crud.Service.Produto.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,14 @@ public class ProdutoController {
 
     // Endpoint para adicionar Produtos
     @PostMapping("/adicionar")
-    public ResponseEntity<ProdutoEntity> adicionarprodutoItem(@RequestBody ProdutoDTO produto) {
-        return ResponseEntity.ok(produtoService.adicionarProduto(produto));
+    public ResponseEntity<?> adicionarprodutoItem(@RequestBody ProdutoRequestDTO produto) {
+        produtoService.adicionarProduto(produto);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     // Endpoint para listar os produtos
     @GetMapping("/listar")
-    public ResponseEntity<List<ProdutoEntity>> buscarProdutos() {
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarProdutos() {
         return ResponseEntity.ok(produtoService.buscarProdutos());
     }
 

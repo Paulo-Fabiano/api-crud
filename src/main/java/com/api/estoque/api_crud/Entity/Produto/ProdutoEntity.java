@@ -2,6 +2,7 @@ package com.api.estoque.api_crud.Entity.Produto;
 
 import com.api.estoque.api_crud.Entity.Categoria.CategoriaEntity;
 import com.api.estoque.api_crud.Entity.Item.ItemEntity;
+import com.api.estoque.api_crud.Entity.ProdutoItemEntity.ProdutoItemEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,16 +23,16 @@ public class ProdutoEntity {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     @Column( name = "id")
     private Long id;
-//    @Lob
-//    @Column( name = "imagem_produto")
-//    private byte[] imagemProduto;
-    @Column( name = "nome_produto")
+    @Lob
+    @Column( name = "imagem")
+    private byte[] imagemProduto;
+    @Column( name = "nome")
     private String nomeProduto;
-    @Column( name = "descricao_produto" )
+    @Column( name = "descricao" )
     private String descricaoProduto;
 
-    @Column( name = "preco_produto" )
-    private Double precoProduto;
+    @Column( name = "preco_unitario" )
+    private Double precoUnitario;
 
     @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable(
@@ -42,21 +43,18 @@ public class ProdutoEntity {
     @JsonManagedReference
     private List<CategoriaEntity> produtoCategoria = new ArrayList<>();
 
-    @ManyToMany( cascade = CascadeType.ALL )
-    @JoinTable(
-            name = "produto_item",
-            joinColumns = @JoinColumn( name = "produto_id" ),
-            inverseJoinColumns = @JoinColumn( name = "item_id" )
-    )
+
+    @OneToMany( mappedBy = "produto", cascade = CascadeType.ALL )
     @JsonManagedReference
-    private List<ItemEntity> produtoItens = new ArrayList<>();
+    private List<ProdutoItemEntity> produtoItens = new ArrayList<>();
 
+    @Column( name = "quantidade")
+    private Integer quantidade_produto;
 
-
-
-    public ProdutoEntity(String nomeProduto, String descricaoProduto, Double precoProduto) {
+    public ProdutoEntity(String nomeProduto, String descricaoProduto, Double precoUnitario, Integer quantidadeProduto) {
         this.nomeProduto = nomeProduto;
         this.descricaoProduto = descricaoProduto;
-        this.precoProduto = precoProduto;
+        this.precoUnitario = precoUnitario;
+        this.quantidade_produto = quantidadeProduto;
     }
 }

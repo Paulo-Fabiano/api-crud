@@ -15,16 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table( name = "vendas" )
 public class Venda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column( name = "data_venda" )
     private LocalDate data_venda;
+    @Column( name = "valor_venda" )
     private Double valor_venda;
-    private boolean venda_revista = false;
-    private boolean venda_estoque = false;
-//    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<ItemEntity> itemEntities;
 
 }
